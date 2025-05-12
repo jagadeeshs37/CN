@@ -1,0 +1,38 @@
+# http_client.py
+import http.client
+
+# Define the server address and port
+host = "localhost"
+port = 8000
+
+# Create a connection to the server
+connection = http.client.HTTPConnection(host, port)
+
+# Send an HTTP GET request to the server
+connection.request("GET", "/")
+
+# Get the response from the server
+response = connection.getresponse()
+
+# Print the status code and response content
+print(f"Status Code: {response.status}")
+print("Response:")
+print(response.read().decode())
+
+# Close the connection
+connection.close()
+
+
+  # http_server.py
+from http.server import SimpleHTTPRequestHandler, HTTPServer
+
+# Define the server's address and port
+host = "localhost"
+port = 8000
+
+# Create and start the server
+server = HTTPServer((host, port), SimpleHTTPRequestHandler)
+print(f"Server running on http://{host}:{port}")
+
+# Start the server to listen indefinitely for incoming HTTP requests
+server.serve_forever()
