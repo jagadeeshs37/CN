@@ -1,0 +1,189 @@
+TCP Server 
+
+ 
+
+import socket 
+
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+
+server_address = ('localhost', 10000) 
+
+server.bind(server_address) 
+
+server.listen(1) 
+
+ 
+
+print("waiting for the connection") 
+
+connection, client_address = server.accept() 
+
+print("Connection established with", client_address) 
+
+ 
+
+message = "" 
+
+while message != "end": 
+
+    data = connection.recv(1000).decode() 
+
+    if data: 
+
+        print(data) 
+
+        message = input() 
+
+        connection.sendall(message.encode()) 
+
+    else: 
+
+        break 
+
+ 
+
+connection.close() 
+
+server.close() 
+
+ 
+
+ 
+
+TCP Client 
+
+import socket 
+
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+
+server_address = ('localhost', 10000) 
+
+client.connect(server_address) 
+
+print("connecting to port ", server_address) 
+
+ 
+
+message = input() 
+
+client.sendall(message.encode()) 
+
+ 
+
+while message != 'end': 
+
+    data = client.recv(1000).decode() 
+
+    if data: 
+
+        print(data) 
+
+        message = input() 
+
+        client.sendall(message.encode()) 
+
+    else: 
+
+        break 
+
+ 
+
+client.close() 
+
+ 
+
+ 
+
+ 
+
+UDP Server 
+
+ 
+
+import socket 
+
+ 
+
+server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # Create UDP socket 
+
+server_address = ('localhost', 10000) 
+
+server.bind(server_address) 
+
+ 
+
+print("UDP Server is listening on port 10000...") 
+
+ 
+
+while True: 
+
+    data, client_address = server.recvfrom(1024)  # Receive data from client 
+
+    message = data.decode() 
+
+    print(f"Received from {client_address}: {message}") 
+
+ 
+
+    if message.lower() == "end": 
+
+        print("Closing server...") 
+
+        break 
+
+ 
+
+    response = input("Enter response: ") 
+
+    server.sendto(response.encode(), client_address)  # Send response to client 
+
+ 
+
+server.close() 
+
+ 
+
+UDP Client 
+
+import socket 
+
+ 
+
+client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # Create UDP socket 
+
+server_address = ('localhost', 10000) 
+
+ 
+
+while True: 
+
+    message = input("Enter message: ") 
+
+    client.sendto(message.encode(), server_address)  # Send data to server 
+
+ 
+
+    if message.lower() == "end": 
+
+        print("Closing client...") 
+
+        break 
+
+ 
+
+    data, _ = client.recvfrom(1024)  # Receive response from server 
+
+    print("Server:", data.decode()) 
+
+ 
+
+client.close() 
+
+ 
+
+ 
+
+ 
+
+ 
