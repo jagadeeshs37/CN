@@ -1,0 +1,33 @@
+# crc_program.py
+
+# CRC-32 Polynomial (0x04C11DB7 is the standard CRC-32 polynomial used in Ethernet)
+CRC_POLYNOMIAL = 0x04C11DB7
+
+# Function to compute CRC-32 checksum
+def crc32(data):
+    crc = 0xFFFFFFFF  # Initial value
+    for byte in data:
+        crc ^= byte << 24  # Align byte to the top of CRC
+        for _ in range(8):  # Process each bit
+            if crc & 0x80000000:  # Check if the highest bit is 1
+                crc = (crc << 1) ^ CRC_POLYNOMIAL  # Apply the polynomial
+            else:
+                crc <<= 1
+            crc &= 0xFFFFFFFF  # Keep the CRC within 32 bits
+    return crc ^ 0xFFFFFFFF  # Final XOR
+
+# Function to convert string input to byte array
+def string_to_bytes(input_string):
+    return bytearray(input_string, 'utf-8')
+
+# Function to print CRC-32 checksum
+def print_crc32(input_string):
+    byte_data = string_to_bytes(input_string)
+    crc_value = crc32(byte_data)
+    print(f"Input Data: {input_string}")
+    print(f"CRC-32 Checksum: {crc_value:#010x}")
+
+# Main function to run the CRC program
+if __name__ == "__main__":
+    input_string = input("Enter the data for CRC-32 calculation: ")
+    print_crc32(input_string)
