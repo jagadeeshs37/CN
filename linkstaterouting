@@ -1,0 +1,52 @@
+# link_state.py
+
+import heapq
+
+# Router names
+routers = ['A', 'B', 'C', 'D']
+
+# Adjacency matrix (graph) representation
+# 9999 means no direct link
+inf = 9999
+graph = {
+    'A': {'A': 0, 'B': 1, 'C': 4, 'D': inf},
+    'B': {'A': 1, 'B': 0, 'C': 2, 'D': 5},
+    'C': {'A': 4, 'B': 2, 'C': 0, 'D': 1},
+    'D': {'A': inf, 'B': 5, 'C': 1, 'D': 0},
+}
+
+def dijkstra(start):
+    visited = set()
+    min_heap = [(0, start)]
+    distances = {router: inf for router in routers}
+    distances[start] = 0
+    previous = {router: None for router in routers}
+
+    while min_heap:
+        current_dist, current_router = heapq.heappop(min_heap)
+        visited.add(current_router)
+
+        for neighbor, weight in graph[current_router].items():
+            if neighbor in visited or weight == inf:
+                continue
+            new_dist = current_dist + weight
+            if new_dist < distances[neighbor]:
+                distances[neighbor] = new_dist
+                previous[neighbor] = current_router
+                heapq.heappush(min_heap, (new_dist, neighbor))
+
+    return distances, previous
+
+# Print routing table for each router
+for router in routers:
+    print(f"\nRouting Table for Router {router}:")
+    distances, previous = dijkstra(router)
+    print("Destination\tCost\tNext Hop")
+    for dest in routers:
+        if router == dest:
+            continue
+        # Find next hop
+        next_hop = dest
+        while previous[next_hop] != router and previous[next_hop] is not None:
+            next_hop = previous[next_hop]
+        print(f"{dest}\t\t{distances[dest]}\t{next_hop}")
