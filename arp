@@ -1,0 +1,27 @@
+# arp_simulation.py
+
+# Define devices in the network
+devices = {
+    '192.168.1.1': '00:11:22:33:44:55',  # IP to MAC mapping
+    '192.168.1.2': '66:77:88:99:AA:BB',
+    '192.168.1.3': 'CC:DD:EE:FF:00:11'
+}
+
+# Simulate an ARP request for an IP
+def arp_request(ip):
+    print(f"ARP Request: Who has {ip}? Tell 192.168.1.1")
+    
+    # Check if the device exists
+    if ip in devices:
+        print(f"ARP Reply: {ip} is at {devices[ip]}")
+    else:
+        print(f"ARP Reply: No reply from {ip} (Device not found)")
+
+# Simulate ARP requests
+def simulate_arp():
+    target_ips = ['192.168.1.2', '192.168.1.3', '192.168.1.4']
+    for ip in target_ips:
+        arp_request(ip)
+
+# Run the simulation
+simulate_arp()
