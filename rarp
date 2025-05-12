@@ -1,0 +1,27 @@
+# rarp_simulation.py
+
+# Define devices with their MAC to IP mapping (for RARP)
+rarp_table = {
+    '00:11:22:33:44:55': '192.168.1.1',  # MAC to IP mapping
+    '66:77:88:99:AA:BB': '192.168.1.2',
+    'CC:DD:EE:FF:00:11': '192.168.1.3'
+}
+
+# Simulate a RARP request for a MAC address
+def rarp_request(mac_address):
+    print(f"RARP Request: What is the IP address for MAC {mac_address}?")
+    
+    # Check if the MAC address exists in the table
+    if mac_address in rarp_table:
+        print(f"RARP Reply: The IP address for MAC {mac_address} is {rarp_table[mac_address]}")
+    else:
+        print(f"RARP Reply: No reply (MAC address not found)")
+
+# Simulate RARP requests
+def simulate_rarp():
+    target_macs = ['66:77:88:99:AA:BB', 'CC:DD:EE:FF:00:11', 'FF:FF:FF:FF:FF:FF']
+    for mac in target_macs:
+        rarp_request(mac)
+
+# Run the simulation
+simulate_rarp()
