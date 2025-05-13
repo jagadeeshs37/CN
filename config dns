@@ -1,0 +1,194 @@
+🔧 1. Create the Topology
+Open Cisco Packet Tracer.
+
+Create a topology that includes:
+
+Router (for inter-network communication)
+
+Switch (to connect devices)
+
+2 PCs (PC1 and PC2)
+
+1 Mail Server (to handle email services)
+
+1 DNS Server (to resolve domain names)
+
+Connect the devices using Copper Straight-Through cables:
+
+Connect the Router to the Switch.
+
+Connect the PCs, Mail Server, and DNS Server to the Switch.
+
+🌐 2. Assign IP Addresses
+Router Configuration:
+Click on the Router and go to the CLI tab.
+
+Configure the router interfaces:
+
+Interface 0/0 (connected to the Mail Server network):
+
+IP Address: 192.168.1.1
+
+Subnet Mask: 255.255.255.0
+
+Interface 0/1 (connected to the second network, where PC2 is located):
+
+IP Address: 192.168.2.1
+
+Subnet Mask: 255.255.255.0
+
+Enable the interfaces:
+
+bash
+Copy
+Edit
+Router0> enable
+Router0# configure terminal
+Router0(config)# interface gigabitethernet 0/0
+Router0(config-if)# ip address 192.168.1.1 255.255.255.0
+Router0(config-if)# no shutdown
+Router0(config-if)# exit
+Router0(config)# interface gigabitethernet 0/1
+Router0(config-if)# ip address 192.168.2.1 255.255.255.0
+Router0(config-if)# no shutdown
+Router0(config-if)# exit
+PC1 Configuration:
+Click on PC1 > Go to Config tab > Select FastEthernet0.
+
+IP Address: 192.168.1.2
+
+Subnet Mask: 255.255.255.0
+
+Default Gateway: 192.168.1.1
+
+DNS Server: 192.168.1.4 (DNS Server IP)
+
+PC2 Configuration:
+Click on PC2 > Go to Config tab > Select FastEthernet0.
+
+IP Address: 192.168.2.2
+
+Subnet Mask: 255.255.255.0
+
+Default Gateway: 192.168.2.1
+
+DNS Server: 192.168.1.4 (DNS Server IP)
+
+Mail Server Configuration:
+Click on the Mail Server > Go to Config tab > Select FastEthernet0.
+
+IP Address: 192.168.1.3
+
+Subnet Mask: 255.255.255.0
+
+Default Gateway: 192.168.1.1
+
+DNS Server Configuration:
+Click on the DNS Server > Go to Config tab > Select FastEthernet0.
+
+IP Address: 192.168.1.4
+
+Subnet Mask: 255.255.255.0
+
+Default Gateway: 192.168.1.1
+
+⚙️ 3. Enable Routing on the Router
+For inter-network communication, we must enable IP Routing on the router:
+
+bash
+Copy
+Edit
+Router0# configure terminal
+Router0(config)# ip routing
+Router0(config)# exit
+⚙️ 4. Configure the DNS Server
+Now, let’s configure the DNS Server to resolve domain names.
+
+DNS Domain Name:
+
+Set a domain name for the DNS server (e.g., example.com).
+
+Add A Records (Address Records) to resolve domain names to IP addresses:
+
+Go to the DNS Server and select DNS from the left panel.
+
+Set the Domain Name as example.com.
+
+Add Host Records:
+
+Add a record for the Mail Server:
+
+Host Name: mail
+
+IP Address: 192.168.1.3
+
+Add a record for PC1:
+
+Host Name: pc1
+
+IP Address: 192.168.1.2
+
+Add a record for PC2:
+
+Host Name: pc2
+
+IP Address: 192.168.2.2
+
+🧪 5. Testing DNS Resolution
+Now, we’ll test if PC1 and PC2 can resolve domain names to IP addresses using the DNS server.
+
+Test from PC1:
+On PC1, go to the Desktop tab > Open Command Prompt.
+
+Type the following command to test DNS resolution:
+
+bash
+Copy
+Edit
+ping mail.example.com
+This should resolve the Mail Server IP address (192.168.1.3) and ping the server successfully.
+
+Test resolving another host:
+
+bash
+Copy
+Edit
+ping pc2.example.com
+This should resolve PC2’s IP address (192.168.2.2) and ping PC2 successfully.
+
+Test from PC2:
+On PC2, go to the Desktop tab > Open Command Prompt.
+
+Type the following command to test DNS resolution:
+
+bash
+Copy
+Edit
+ping mail.example.com
+This should resolve the Mail Server IP address (192.168.1.3) and ping the server successfully.
+
+✉️ 6. Sending Emails Using DNS
+Now that DNS resolution is set up, you can use Mail Server to send emails with the domain name example.com.
+
+From PC1 to PC2:
+On PC1, go to Email > Compose a new email:
+
+Recipient: user2@mail.example.com
+
+Subject: Test Email
+
+Message: Hello, this is a test email from User1!
+
+Click Send.
+
+From PC2 to PC1:
+On PC2, go to Email > Compose a new email:
+
+Recipient: user1@mail.example.com
+
+Subject: Reply from User2
+
+Message: Hello, this is a reply from User2!
+
+Click Send.
+
