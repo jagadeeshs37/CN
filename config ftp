@@ -1,0 +1,83 @@
+✅ Step-by-Step Instructions:
+🔧 1. Create the Topology
+Open Cisco Packet Tracer.
+
+Drag and drop:
+
+1 Server
+
+1 PC
+
+1 Switch
+
+Connect devices using Copper Straight-Through cables.
+
+🌐 2. Assign IP Addresses
+Server:
+Click on the Server > Go to Config tab > Select FastEthernet0.
+
+Set:
+
+IP Address: 192.168.1.2
+
+Subnet Mask: 255.255.255.0
+
+Default Gateway: 192.168.1.1
+
+PC:
+Click on the PC > Go to Config tab > Select FastEthernet0.
+
+Set:
+
+IP Address: 192.168.1.3
+
+Subnet Mask: 255.255.255.0
+
+Default Gateway: 192.168.1.1
+
+⚙️ 3. Enable FTP on Server
+Click on the Server > Go to Services tab.
+
+Select FTP from the left panel.
+
+Turn FTP service ON.
+
+Add a user:
+
+Username: admin
+
+Password: cisco
+
+Add a file for testing (e.g., sample.txt).
+
+Save user.
+
+🧪 4. Test FTP from PC
+Click on the PC > Go to Desktop tab > Click Command Prompt.
+
+Type the command:
+
+nginx
+Copy
+Edit
+ftp 192.168.1.2
+When prompted:
+
+Username: admin
+
+Password: cisco
+
+Once logged in, try commands:
+
+vbnet
+Copy
+Edit
+dir       → To list files
+get sample.txt  → To download file
+✅ 5. Troubleshooting Tips
+Ensure all devices are powered on.
+
+Make sure FTP service is running.
+
+Check IP connectivity using ping 192.168.1.2 from the PC.
+
