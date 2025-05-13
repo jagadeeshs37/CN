@@ -1,0 +1,192 @@
+✅ Step-by-Step Instructions:
+🔧 1. Create the Topology
+Open Cisco Packet Tracer.
+
+Drag and drop the following:
+
+1 Router (e.g., Router0)
+
+1 Switch (to connect devices)
+
+2 PCs (PC1 and PC2)
+
+1 Server (Mail Server)
+
+Connect devices:
+
+Router interfaces to Switch (Router Ethernet ports to Switch).
+
+Connect PC1, PC2, and Mail Server to the Switch.
+
+🌐 2. Assign IP Addresses
+Router Configuration:
+Click on the Router and go to the CLI tab.
+
+Configure the router interfaces:
+
+For Router0:
+
+Interface 0/0 (connected to PC1 and Mail Server network):
+
+IP Address: 192.168.1.1
+
+Subnet Mask: 255.255.255.0
+
+Interface 0/1 (connected to PC2 network):
+
+IP Address: 192.168.2.1
+
+Subnet Mask: 255.255.255.0
+
+Enable the interfaces:
+
+bash
+Copy
+Edit
+Router0> enable
+Router0# configure terminal
+Router0(config)# interface gigabitethernet 0/0
+Router0(config-if)# ip address 192.168.1.1 255.255.255.0
+Router0(config-if)# no shutdown
+Router0(config-if)# exit
+Router0(config)# interface gigabitethernet 0/1
+Router0(config-if)# ip address 192.168.2.1 255.255.255.0
+Router0(config-if)# no shutdown
+Router0(config-if)# exit
+PC1 Configuration (Mail Client 1):
+Click on PC1 > Go to the Config tab > Select FastEthernet0.
+
+IP Address: 192.168.1.2
+
+Subnet Mask: 255.255.255.0
+
+Default Gateway: 192.168.1.1
+
+PC2 Configuration (Mail Client 2):
+Click on PC2 > Go to the Config tab > Select FastEthernet0.
+
+IP Address: 192.168.2.2
+
+Subnet Mask: 255.255.255.0
+
+Default Gateway: 192.168.2.1
+
+Mail Server Configuration:
+Click on Mail Server > Go to the Config tab > Select FastEthernet0.
+
+IP Address: 192.168.1.3
+
+Subnet Mask: 255.255.255.0
+
+Default Gateway: 192.168.1.1
+
+⚙️ 3. Enable Routing on the Router
+In this case, we are dealing with two different networks, so routing must be enabled on the router to allow communication between the two subnets. The router must know how to route traffic between the networks.
+
+Go to the CLI tab of the router.
+
+Enable IP Routing (if it's not already enabled):
+
+bash
+Copy
+Edit
+Router0# configure terminal
+Router0(config)# ip routing
+Router0(config)# exit
+⚙️ 4. Configure the Mail Server
+Click on the Mail Server > Go to the Services tab.
+
+Select Mail from the left panel.
+
+Enable the SMTP service (for sending emails).
+
+Enable the POP3 service (for receiving emails).
+
+Set Domain Name as example.com.
+
+Set SMTP Server and POP3 Server to 192.168.1.3 (Mail Server IP).
+
+Create Mail User Accounts:
+
+User1:
+
+Username: user1
+
+Password: password1
+
+User2:
+
+Username: user2
+
+Password: password2
+
+🧪 5. Configure Email Clients on PCs
+PC1 (Mail Client 1):
+Click on PC1 > Go to the Desktop tab > Click Email.
+
+Your Name: User1
+
+Email Address: user1@example.com
+
+Incoming Mail Server (POP3): 192.168.1.3
+
+Outgoing Mail Server (SMTP): 192.168.1.3
+
+Username: user1
+
+Password: password1
+
+Click on Save.
+
+PC2 (Mail Client 2):
+Click on PC2 > Go to the Desktop tab > Click Email.
+
+Your Name: User2
+
+Email Address: user2@example.com
+
+Incoming Mail Server (POP3): 192.168.1.3
+
+Outgoing Mail Server (SMTP): 192.168.1.3
+
+Username: user2
+
+Password: password2
+
+Click on Save.
+
+✉️ 6. Sending and Receiving Emails
+Send Email from PC1 to PC2:
+On PC1, click on Email > Compose a new email:
+
+Recipient: user2@example.com
+
+Subject: Test Email
+
+Message: Hello User2, this is User1 sending a test email.
+
+Click Send to send the email.
+
+Send Email from PC2 to PC1:
+On PC2, click on Email > Compose a new email:
+
+Recipient: user1@example.com
+
+Subject: Reply from User2
+
+Message: Hello User1, this is User2 replying to your email.
+
+Click Send to send the email.
+
+Retrieve Emails:
+On both PC1 and PC2, click on Check Mail to retrieve the emails from the mail server.
+
+✅ 7. Troubleshooting Tips
+Make sure IP Routing is enabled on the router.
+
+Verify that each device is in the correct IP subnet.
+
+Test connectivity using ping (e.g., ping 192.168.1.3 from PC1 or ping 192.168.2.2 from the router).
+
+Ensure that both SMTP and POP3 services are active on the Mail Server.
+
