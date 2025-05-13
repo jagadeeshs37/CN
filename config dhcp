@@ -1,0 +1,101 @@
+✅ Step-by-Step Guide to Configuring DHCP:
+🔧 1. Create the Topology
+Open Cisco Packet Tracer.
+
+Add the following devices to the workspace:
+
+1 Router (to configure DHCP)
+
+1 Switch (to connect devices)
+
+2 PCs (to act as clients)
+
+Connect the Router to the Switch using a Copper Straight-Through Cable.
+
+Connect PC1 and PC2 to the Switch using Copper Straight-Through Cables.
+
+🌐 2. Configure Router for DHCP
+Router Configuration:
+Click on the Router and go to the CLI tab.
+
+Follow these steps to configure the DHCP settings:
+
+Enter Global Configuration Mode:
+
+bash
+Copy
+Edit
+Router> enable
+Router# configure terminal
+Configure the Router's Interface:
+
+Assume we are using GigabitEthernet0/0 interface.
+
+Configure an IP address for the router on the network:
+
+bash
+Copy
+Edit
+Router(config)# interface gigabitethernet 0/0
+Router(config-if)# ip address 192.168.1.1 255.255.255.0
+Router(config-if)# no shutdown
+Router(config-if)# exit
+Configure the DHCP Pool:
+
+Define a DHCP pool to assign IP addresses to devices:
+
+bash
+Copy
+Edit
+Router(config)# ip dhcp pool NetworkPool
+Router(dhcp-config)# network 192.168.1.0 255.255.255.0  # Network for DHCP
+Router(dhcp-config)# default-router 192.168.1.1        # Default Gateway
+Router(dhcp-config)# dns-server 192.168.1.1           # DNS Server (optional)
+Router(dhcp-config)# lease 0 2 0                       # Lease time (0 days, 2 hours)
+Router(dhcp-config)# exit
+Exclude IP Addresses (optional):
+
+Exclude certain IPs from the DHCP range (e.g., the router's IP address and other reserved addresses):
+
+bash
+Copy
+Edit
+Router(config)# ip dhcp excluded-address 192.168.1.1 192.168.1.10
+This prevents the router from assigning IPs in the range 192.168.1.1 to 192.168.1.10.
+
+🌐 3. Configure PCs to Use DHCP
+Now, let’s configure PC1 and PC2 to automatically obtain their IP addresses from the Router's DHCP server.
+
+PC1 Configuration:
+Click on PC1 > Go to the Config tab > Select FastEthernet0.
+
+Set the IP Configuration to DHCP (this will make the PC obtain an IP address automatically from the DHCP server).
+
+PC2 Configuration:
+Click on PC2 > Go to the Config tab > Select FastEthernet0.
+
+Set the IP Configuration to DHCP (just like PC1, this will make PC2 obtain an IP address automatically).
+
+🧪 4. Test DHCP Configuration
+Now, let’s test if both PCs are receiving IP addresses from the Router's DHCP Server.
+
+Check the IP Configuration on PCs:
+
+On PC1, go to the Desktop tab > Click IP Configuration.
+
+It should automatically get an IP address from the DHCP pool, e.g., 192.168.1.11 (if the excluded range was set from .1 to .10).
+
+Do the same for PC2. It should also automatically receive an IP address in the 192.168.1.0 range.
+
+Verify with Ping:
+
+On PC1, go to Desktop > Open Command Prompt.
+
+Type the command:
+
+bash
+Copy
+Edit
+ping 192.168.1.1
+This should show a successful ping to the Router (the default gateway).
+
